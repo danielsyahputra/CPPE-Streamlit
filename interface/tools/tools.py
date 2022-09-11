@@ -1,6 +1,6 @@
-import os
 import torch
 import torchvision
+from typing import Tuple
 
 class MyPredictor():
     def __init__(
@@ -31,13 +31,21 @@ class MyPredictor():
         self.model = model
         self.model.eval()
 
-    def predict(self, image) -> list:
+    def predict(self, image, iou_threshold: float = 0.3) -> Tuple:
         image_transformed = self.transform(image)
         batch_image = torch.unsqueeze(image_transformed, 0)
 
         # Inference
         output = self.model(batch_image)[0]
-        boxes = output['boxes'].detach().numpy()
+        boxes = output['boxes']
         labels = output['labels'].detach().numpy()
-        scores = output['scores'].detach().numpy()
-        return [self.label[label] for label in labels]
+        scores = output['scores']
+
+        # NMS
+        NMS = torchvision.ops.nms(boxes=boxes, scores=scores, iou_threshold=iou_threshold)
+        boxes_np = boxes.detach().numpy()
+        scores_np = scores.detach().numpy()
+        boxes = [boxes_np[i] for i in range(len(boxes_np)) if i in NMS]
+        scores = [scores_np[i] for i in range(len(scores_np)) if i in NMS]
+        labels = [labels[i] for i in range(len(labels)) if i in NMS]
+        return boxes, labels, scores
