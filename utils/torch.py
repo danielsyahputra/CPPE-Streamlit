@@ -33,7 +33,10 @@ class CPPEDataset(Dataset):
             boxes.append([xmin, ymin, xmax, ymax])
 
         boxes = torch.as_tensor(boxes, dtype=torch.float32)
-        labels = torch.ones((num_objs, ), dtype=torch.int64)
+        labels = []
+        for i in range(num_objs):
+            labels.append(coco_annotation[i]["category_id"])
+        labels = torch.as_tensor(labels, dtype=torch.int64)
         img_id = torch.tensor([img_id])
 
         areas = []
