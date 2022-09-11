@@ -6,11 +6,11 @@ class MyPredictor():
     def __init__(
         self, 
         colors: dict = {
-            0: "#43d61e",
-            1: "#bfbf0b",
-            2: "#bf860b",
-            3: "#b30bbf",
-            4: "#0b6bbf"
+            0: (67, 214, 30),
+            1: (191, 191, 11),
+            2: (191, 134, 11),
+            3: (179, 11, 191),
+            4: (11, 107, 191)
         }) -> None:
         self.model = ""
         self.label = {
