@@ -1,1 +1,1 @@
-from .tools import predict
+from .tools import MyPredictor
