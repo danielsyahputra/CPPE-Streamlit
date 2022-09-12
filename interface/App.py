@@ -17,13 +17,13 @@ def load_settings() -> None:
     global sidebar
     global iou_threshold
     global probability_threshold
-    global is_json_output
+    global model_option
 
     sidebar = st.sidebar
     sidebar.write("Try to tune this value for better post-processing result.")
     iou_threshold = sidebar.number_input("IoU Threshold", min_value=0.0, max_value=1.0, value=0.5, step=0.01)
     probability_threshold = sidebar.number_input("Probability Threshold", min_value=0.0, max_value=1.0, value=0.5, step=0.01)
-    is_json_output = sidebar.checkbox(label="JSON Output", value=False)
+    model_option = sidebar.selectbox(label="Choose the baseline model", options=["SSD", "FasterRCNN"])
 
 def main() -> None:
     load_settings()
@@ -40,9 +40,12 @@ def main() -> None:
         end_time = timer()
         st.write(f"Total time: {end_time - start_time:.3f} seconds")
 
-        if is_json_output:
-            st.json(preds)
-        else:
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown('<p style="text-align: center;">Before Image</p><hr>', unsafe_allow_html=True)
+            st.image(image)
+        with col2:
+            st.markdown('<p style="text-align: center;">After Image</p><hr>', unsafe_allow_html=True)
             st.image(image_labelled)
 
 if __name__=="__main__":

@@ -30,7 +30,8 @@ class MyPredictor():
         ])
         self.load_models()
 
-    def load_models(self, path: str = "./models/CPPEModel.pt", device: str = "cpu") -> None:
+    def load_models(self, baseline_model: str = "SSD", device: str = "cpu") -> None:
+        path = f"./models/{baseline_model}.pt"
         model = torch.load(f=path, map_location=torch.device(device))
         self.model = model
         self.model.eval()

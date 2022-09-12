@@ -25,3 +25,6 @@ def download_model(dir_name="models") -> None:
     gdown.download(
         "https://drive.google.com/uc?id=1TPuEct_xvQSxKx5j0TvcL86SOByiJkew", quiet=False
     )
+    gdown.download(
+        "https://drive.google.com/uc?id=1NtMtww8HozQBZ6WNa1riKSXir0Bn0clf", quiet=False
+    )
