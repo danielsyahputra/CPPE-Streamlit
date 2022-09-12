@@ -48,24 +48,32 @@ class MyPredictor():
                         cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 2)
         return image_copy
 
-    def predict(self, image: np.ndarray, iou_threshold: float = 0.3) -> np.ndarray:
+    def predict(self, image: np.ndarray, probability_threshold: float = 0.5, iou_threshold: float = 0.3) -> np.ndarray:
         image_transformed = self.transform(image)
         batch_image = torch.unsqueeze(image_transformed, 0)
 
         # Inference
         output = self.model(batch_image)[0]
-        boxes = output['boxes']
+        boxes = output['boxes'].detach().numpy()
         labels = output['labels'].detach().numpy()
-        scores = output['scores']
+        scores = output['scores'].detach().numpy()
+
+        new_boxes = []
+        new_labels = []
+        new_scores = []
+
+        for i, score in enumerate(scores):
+            if score >= probability_threshold:
+                new_boxes.append(boxes[i])
+                new_labels.append(labels[i])
+                new_scores.append(scores[i])
 
         # NMS
-        NMS = torchvision.ops.nms(boxes=boxes, scores=scores, iou_threshold=iou_threshold)
-        boxes_np = boxes.detach().numpy()
-        scores_np = scores.detach().numpy()
-        boxes = [boxes_np[i] for i in range(len(boxes_np)) if i in NMS]
-        scores = [scores_np[i] for i in range(len(scores_np)) if i in NMS]
-        labels = [labels[i] for i in range(len(labels)) if i in NMS]
+        NMS = torchvision.ops.nms(boxes=torch.as_tensor(boxes), scores=torch.as_tensor(scores), iou_threshold=iou_threshold)
+        fix_boxes = [new_boxes[i] for i in range(len(new_boxes)) if i in NMS]
+        fix_scores = [new_scores[i] for i in range(len(new_scores)) if i in NMS]
+        fix_labels = [new_labels[i] for i in range(len(new_labels)) if i in NMS]
 
         # Draw bounding box
-        image_labelled = self.draw_bounding_box(image, boxes, labels, scores)
+        image_labelled = self.draw_bounding_box(image, fix_boxes, fix_labels, fix_scores)
         return image_labelled
