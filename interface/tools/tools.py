@@ -2,6 +2,8 @@ import torch
 import torchvision
 import cv2
 import numpy as np
+import streamlit as st
+from timeit import default_timer as timer
 
 class MyPredictor():
     def __init__(
@@ -33,6 +35,7 @@ class MyPredictor():
         self.model.eval()
 
     def draw_bounding_box(self, image: np.ndarray, boxes: list, labels: list, scores: list) -> np.ndarray:
+        start_time = timer()
         image_copy = image.copy()
         for i, box in enumerate(boxes):
             xmin = int(box[0])
@@ -46,9 +49,12 @@ class MyPredictor():
             cv2.rectangle(image_copy, (xmin, ymin), (xmax, ymax), color, 2)
             cv2.putText(image_copy, text, (xmin, ymax - 10),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 2)
+        end_time = timer()
+        st.write(f"Total for drawing bounding box: {end_time - start_time:.3f} seconds")
         return image_copy
 
     def predict(self, image: np.ndarray, probability_threshold: float = 0.5, iou_threshold: float = 0.3) -> np.ndarray:
+        start_time = timer()
         image_transformed = self.transform(image)
         batch_image = torch.unsqueeze(image_transformed, 0)
 
@@ -74,6 +80,10 @@ class MyPredictor():
         fix_scores = [new_scores[i] for i in range(len(new_scores)) if i in NMS]
         fix_labels = [new_labels[i] for i in range(len(new_labels)) if i in NMS]
 
+        end_time = timer()
+        st.write(f"Total inference time (including post-processing): {end_time - start_time:.3f} seconds")
+
         # Draw bounding box
+        
         image_labelled = self.draw_bounding_box(image, fix_boxes, fix_labels, fix_scores)
         return image_labelled
