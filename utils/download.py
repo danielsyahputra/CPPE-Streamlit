@@ -12,7 +12,15 @@ def download_data(dir_name="data") -> None:
         os.mkdir(dir_name)
     os.chdir(dir_name)
     gdown.download(
-        "https://drive.google.com/uc?id=1MGnaAfbckUmigGUvihz7uiHGC6rBIbvr", quiet=False
+        "https://drive.google.com/uc?id=1YkJsbUNt-ut1HoSkiQB8rY8Zc5SFzui9", quiet=False
     )
     os.system("tar -xf dataset.tar.gz")
     os.remove("dataset.tar.gz")
+
+def download_model(dir_name="models") -> None:
+    if not check_dir(dir_name):
+        os.mkdir(dir_name)
+    os.chdir(dir_name)
+    gdown.download(
+        "https://drive.google.com/uc?id=1TPuEct_xvQSxKx5j0TvcL86SOByiJkew", quiet=False
+    )
