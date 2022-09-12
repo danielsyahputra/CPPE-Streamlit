@@ -16,6 +16,7 @@ def download_data(dir_name="data") -> None:
     )
     os.system("tar -xf dataset.tar.gz")
     os.remove("dataset.tar.gz")
+    os.chdir("..")
 
 def download_model(dir_name="models") -> None:
     if not check_dir(dir_name):
