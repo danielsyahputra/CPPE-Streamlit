@@ -2,6 +2,7 @@ import streamlit as st
 import numpy as np
 from tools import MyPredictor
 from PIL import Image
+from timeit import default_timer as timer
 
 def load_settings() -> None:
     st.set_page_config(
@@ -23,7 +24,10 @@ def main() -> None:
     if uploaded_file is not None:
         image = Image.open(uploaded_file)
         image = np.array(image)
-        image_labelled = predictor.predict(image=image, iou_threshold=0.3)
+        start_time = timer()
+        image_labelled = predictor.predict(image=image, iou_threshold=0.5)
+        end_time = timer()
+        st.write(f"Total inference time: {end_time - start_time:.3f} seconds")
         st.image(image_labelled)
 
 if __name__=="__main__":
