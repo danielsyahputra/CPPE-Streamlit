@@ -1,6 +1,7 @@
 import torch
 import torchvision
-from typing import Tuple
+import cv2
+import numpy as np
 
 class MyPredictor():
     def __init__(
@@ -31,7 +32,23 @@ class MyPredictor():
         self.model = model
         self.model.eval()
 
-    def predict(self, image, iou_threshold: float = 0.3) -> Tuple:
+    def draw_bounding_box(self, image: np.ndarray, boxes: list, labels: list, scores: list) -> np.ndarray:
+        image_copy = image.copy()
+        for i, box in enumerate(boxes):
+            xmin = int(box[0])
+            ymin = int(box[1])
+            xmax = int(box[2])
+            ymax = int(box[3])
+            color = self.colors[labels[i]]
+            category = self.label[labels[i]]
+            percentage = scores[i] * 100
+            text = f"{category} ({percentage:.1f}%)"
+            cv2.rectangle(image_copy, (xmin, ymin), (xmax, ymax), color, 2)
+            cv2.putText(image_copy, text, (xmin, ymax - 10),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 2)
+        return image_copy
+
+    def predict(self, image: np.ndarray, iou_threshold: float = 0.3) -> np.ndarray:
         image_transformed = self.transform(image)
         batch_image = torch.unsqueeze(image_transformed, 0)
 
@@ -48,4 +65,7 @@ class MyPredictor():
         boxes = [boxes_np[i] for i in range(len(boxes_np)) if i in NMS]
         scores = [scores_np[i] for i in range(len(scores_np)) if i in NMS]
         labels = [labels[i] for i in range(len(labels)) if i in NMS]
-        return boxes, labels, scores
+
+        # Draw bounding box
+        image_labelled = self.draw_bounding_box(image, boxes, labels, scores)
+        return image_labelled

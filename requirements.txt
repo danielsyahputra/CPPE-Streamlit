@@ -1,0 +1,6 @@
+opencv-python
+streamlit
+torch
+torchvision
+gdown
+pycocotools
