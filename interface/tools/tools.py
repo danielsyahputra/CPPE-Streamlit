@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 import streamlit as st
 from timeit import default_timer as timer
+from typing import Tuple
 
 class MyPredictor():
     def __init__(
@@ -53,7 +54,7 @@ class MyPredictor():
         st.write(f"Total for drawing bounding box: {end_time - start_time:.3f} seconds")
         return image_copy
 
-    def predict(self, image: np.ndarray, probability_threshold: float = 0.5, iou_threshold: float = 0.3) -> np.ndarray:
+    def predict(self, image: np.ndarray, probability_threshold: float = 0.5, iou_threshold: float = 0.3) -> Tuple[np.ndarray, dict]:
         start_time = timer()
         image_transformed = self.transform(image)
         batch_image = torch.unsqueeze(image_transformed, 0)
@@ -86,4 +87,5 @@ class MyPredictor():
         # Draw bounding box
         
         image_labelled = self.draw_bounding_box(image, fix_boxes, fix_labels, fix_scores)
-        return image_labelled
+        preds = {"boxes": fix_boxes, "labels": fix_labels, "scores": fix_scores}
+        return image_labelled, preds
