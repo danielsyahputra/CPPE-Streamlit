@@ -15,7 +15,7 @@ class MyPredictor():
             2: (191, 134, 11),
             3: (179, 11, 191),
             4: (11, 107, 191)
-        }) -> None:
+        }, baseline_model: str = "SSD") -> None:
         self.model = ""
         self.label = {
             0: "Coverall",
@@ -28,7 +28,7 @@ class MyPredictor():
         self.transform = torchvision.transforms.Compose([
             torchvision.transforms.ToTensor()
         ])
-        self.load_models()
+        self.load_models(baseline_model=baseline_model)
 
     def load_models(self, baseline_model: str = "SSD", device: str = "cpu") -> None:
         path = f"./models/{baseline_model}.pt"

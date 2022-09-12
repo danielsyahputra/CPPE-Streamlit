@@ -30,7 +30,7 @@ def main() -> None:
     uploaded_file = st.file_uploader(label="Choose a file", type=['png'])
     
     # Inference
-    predictor = MyPredictor()
+    predictor = MyPredictor(baseline_model=model_option)
     
     if uploaded_file is not None:
         image = Image.open(uploaded_file)
