@@ -20,6 +20,15 @@ def load_settings() -> None:
     global model_option
 
     sidebar = st.sidebar
+
+    with open("test/test_images.zip", "rb") as fp:
+        btn = sidebar.download_button(
+            label="Download Test Images",
+            data=fp,
+            file_name="test_images.zip",
+            mime="application/zip"
+        )
+
     sidebar.write("Try to tune this value for better post-processing result.")
     iou_threshold = sidebar.number_input("IoU Threshold", min_value=0.0, max_value=1.0, value=0.5, step=0.01)
     probability_threshold = sidebar.number_input("Probability Threshold", min_value=0.0, max_value=1.0, value=0.5, step=0.01)
@@ -36,7 +45,7 @@ def main() -> None:
         image = Image.open(uploaded_file)
         image = np.array(image)
         start_time = timer()
-        image_labelled, preds = predictor.predict(image=image,probability_threshold=probability_threshold, iou_threshold=iou_threshold)
+        image_labelled = predictor.predict(image=image,probability_threshold=probability_threshold, iou_threshold=iou_threshold)
         end_time = timer()
         st.write(f"Total time: {end_time - start_time:.3f} seconds")
 
