@@ -1,4 +1,4 @@
-# Medical Personal Protective Equipment Dataset
+# Medical Personal Protective Equipment Detection
 
 This project is implemented using the CPPE-5 Dataset and modified based on research done by Rishit Dagli and Ali Mustufa Shaikh in their famous paper _**CPPE - 5: Medical Personal Protective Equipment Dataset**_.
 
