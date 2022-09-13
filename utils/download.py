@@ -23,8 +23,8 @@ def download_model(dir_name="models") -> None:
         os.mkdir(dir_name)
     os.chdir(dir_name)
     gdown.download(
-        "https://drive.google.com/uc?id=1TPuEct_xvQSxKx5j0TvcL86SOByiJkew", quiet=False
+        "https://drive.google.com/uc?id=18lA8PlHa1z41TCrlNIG318CUQbFsB8No", quiet=False
     )
     gdown.download(
-        "https://drive.google.com/uc?id=1NtMtww8HozQBZ6WNa1riKSXir0Bn0clf", quiet=False
+        "https://drive.google.com/uc?id=1wqCbCZob1OTAKfnwnn-hIcTZQUAq2vtQ", quiet=False
     )
