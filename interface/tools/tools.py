@@ -9,19 +9,19 @@ class MyPredictor():
     def __init__(
         self, 
         colors: dict = {
-            0: (67, 214, 30),
-            1: (191, 191, 11),
-            2: (191, 134, 11),
-            3: (179, 11, 191),
-            4: (11, 107, 191)
+            1: (67, 214, 30),
+            2: (191, 191, 11),
+            3: (191, 134, 11),
+            4: (179, 11, 191),
+            5: (11, 107, 191)
         }, baseline_model: str = "SSD") -> None:
         self.model = ""
         self.label = {
-            0: "Coverall",
-            1: "Face Shield",
-            2: "Gloves",
-            3: "Goggles",
-            4: "Mask"
+            1: "Coverall",
+            2: "Face Shield",
+            3: "Gloves",
+            4: "Goggles",
+            5: "Mask"
         }
         self.colors = colors
         self.transform = torchvision.transforms.Compose([
@@ -48,7 +48,7 @@ class MyPredictor():
             percentage = scores[i] * 100
             text = f"{category} ({percentage:.1f}%)"
             cv2.rectangle(image_copy, (xmin, ymin), (xmax, ymax), color, 2)
-            cv2.putText(image_copy, text, (xmin, ymax + 20),
+            cv2.putText(image_copy, text, (xmin, ymin - 20),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 2)
         end_time = timer()
         st.write(f"Total for drawing bounding box: {end_time - start_time:.3f} seconds")

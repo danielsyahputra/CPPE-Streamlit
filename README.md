@@ -12,11 +12,11 @@ _**Accompanying paper: [CPPE - 5: Medical Personal Protective Equipment Dataset]
 ### Labels
 | Label | Description |
 |:----:|:-------------|
-| 0 | Coverall |
-| 1 | Face_Shield |
-| 2 | Gloves |
-| 3 | Goggles |
-| 4 | Mask |
+| 1 | Coverall |
+| 2 | Face_Shield |
+| 3 | Gloves |
+| 4 | Goggles |
+| 5 | Mask |
 
 ## Run This App
 
