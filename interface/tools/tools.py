@@ -48,7 +48,7 @@ class MyPredictor():
             percentage = scores[i] * 100
             text = f"{category} ({percentage:.1f}%)"
             cv2.rectangle(image_copy, (xmin, ymin), (xmax, ymax), color, 2)
-            cv2.putText(image_copy, text, (xmin, ymax - 10),
+            cv2.putText(image_copy, text, (xmin, ymax + 20),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 2)
         end_time = timer()
         st.write(f"Total for drawing bounding box: {end_time - start_time:.3f} seconds")
