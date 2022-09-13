@@ -33,7 +33,7 @@ streamlit run interface/App.py
 The image is avaliable at [Docker hub](https://hub.docker.com/repository/docker/danielsyahputra13/cppe_streamlit). To run this app, you can do the following commands.
 
 - Pull image: `docker pull danielsyahputra13/cppe_streamlit:stable`
-- Run docker container locally: `docker run -p {LOCAL_PORT}:8501 danielsyahputra13/cppe_streamlit:stable`
+- Run docker container locally: `docker run -it --rm -p {LOCAL_PORT}:8501 danielsyahputra13/cppe_streamlit:stable`
 - Open the browser and go to `localhost:{LOCAL_PORT}` to see the application.
 
 ## Acknoweldgements
