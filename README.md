@@ -22,7 +22,7 @@ _**Accompanying paper: [CPPE - 5: Medical Personal Protective Equipment Dataset]
 
 ### Repository Clone
 ```
-git clone https://github.com/danielsyahputra13/CPPE-Streamlit.git
+git clone https://github.com/danielsyahputra/CPPE-Streamlit.git
 cd CPPE-Streamlit
 python3 download.py
 pip3 install -r requirements.txt
